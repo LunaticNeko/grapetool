@@ -10,10 +10,13 @@ def url_json(url):
 def url_last_updated(url):
     return url_json(url)['updated_at'].strip()
 
-URL = "https://api.github.com/repos/FluffierThanThou/WorkTab"
+GITHUB_TOKEN = None
 
-status = url_json("https://api.github.com/rate_limit")
-print status
+try:
+    with open('key') as keyfile:
+        GITHUB_TOKEN = keyfile.readline()
+except:
+    GITHUB_TOKEN = None
 
 with open('list') as f:
     for line in f:
@@ -21,6 +24,8 @@ with open('list') as f:
             continue
         authorname, modname = line.strip().split(' ')
         URL = "https://api.github.com/repos/" + authorname + "/" + modname
+        if GITHUB_TOKEN is not None:
+            URL = URL + "?access_token=" + GITHUB_TOKEN
         lastupdated = url_last_updated(URL)
         print "%s,%s,%s" % (authorname, modname, lastupdated)
 
