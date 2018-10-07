@@ -22,10 +22,10 @@ with open('list') as f:
     for line in f:
         if len(line)<3:
             continue
-        authorname, modname = line.strip().split(' ')
-        URL = "https://api.github.com/repos/" + authorname + "/" + modname
+        authorname, reponame = line.strip().split(' ')
+        URL = "https://api.github.com/repos/" + authorname + "/" + reponame
         if GITHUB_TOKEN is not None:
             URL = URL + "?access_token=" + GITHUB_TOKEN
         lastupdated = url_last_updated(URL)
-        print "%s,%s,%s" % (authorname, modname, lastupdated)
+        print "%s,%s,%s" % (authorname, reponame, lastupdated)
 
